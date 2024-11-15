@@ -134,7 +134,6 @@ class ApiService {
     String name,
     String lastName,
     String email,
-    String birthDate,
   ) async {
     final url = Uri.parse("${apiUrl}updatePerfil");
 
@@ -143,7 +142,6 @@ class ApiService {
       'name': name,
       'lastName': lastName,
       'email': email,
-      'birthdate': birthDate,
     };
 
     try {

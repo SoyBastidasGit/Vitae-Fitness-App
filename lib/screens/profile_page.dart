@@ -4,12 +4,27 @@ import 'package:vitae_fitness/screens/login_page.dart';
 import 'package:vitae_fitness/services/providers.dart';
 import 'package:vitae_fitness/themes.dart';
 
-class UserProfilePage extends StatelessWidget {
+class UserProfilePage extends StatefulWidget {
   const UserProfilePage({super.key});
+
+  @override
+  UserProfilePageState createState() => UserProfilePageState();
+}
+
+class UserProfilePageState extends State<UserProfilePage> {
+  final _nameController = TextEditingController();
+  final _lastnameController = TextEditingController();
+  final _emailController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
     final profileProvider = Provider.of<ProfileProvider>(context, listen: true);
+
+    // Set initial values for the controllers
+    _nameController.text = profileProvider.name;
+    _lastnameController.text = profileProvider.lastname;
+    _emailController.text = profileProvider.email;
+
     return Scaffold(
       appBar: AppBar(
         title: const Text('Perfil'),
@@ -47,13 +62,58 @@ class UserProfilePage extends StatelessWidget {
               ),
             ),
             const SizedBox(height: 30),
-            ListTile(
+
+            // ExpansionTile for editing profile
+            ExpansionTile(
               leading: const Icon(Icons.person),
               title: const Text('Editar perfil'),
-              onTap: () {
-                // Lógica para editar perfil
-              },
+              children: [
+                Padding(
+                  padding: const EdgeInsets.symmetric(vertical: 8.0),
+                  child: TextField(
+                    controller: _nameController,
+                    decoration: const InputDecoration(
+                      labelText: 'Nombre',
+                    ),
+                  ),
+                ),
+                Padding(
+                  padding: const EdgeInsets.symmetric(vertical: 8.0),
+                  child: TextField(
+                    controller: _lastnameController,
+                    decoration: const InputDecoration(
+                      labelText: 'Apellido',
+                    ),
+                  ),
+                ),
+                Padding(
+                  padding: const EdgeInsets.symmetric(vertical: 8.0),
+                  child: TextField(
+                    controller: _emailController,
+                    decoration: const InputDecoration(
+                      labelText: 'Correo electrónico',
+                    ),
+                    keyboardType: TextInputType.emailAddress,
+                  ),
+                ),
+                ElevatedButton(
+                  onPressed: () {
+                    profileProvider.updateProfile(
+                      _nameController.text,
+                      _lastnameController.text,
+                      _emailController.text,
+                    );
+                    // Mostrar un mensaje de éxito o hacer algo al guardar
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      const SnackBar(content: Text('Perfil actualizado')),
+                    );
+                  },
+                  child: const Text('Guardar cambios'),
+                ),
+              ],
             ),
+
+            // Other ListTile for settings
             ListTile(
               leading: const Icon(Icons.settings),
               title: const Text('Configuración'),
