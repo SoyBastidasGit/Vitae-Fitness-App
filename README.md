@@ -1,2 +1,3 @@
-# Vitae-Fitness-App
-Aplicacion movil de vitae fitness
+# vitae_fitness
+
+A new Flutter project.
