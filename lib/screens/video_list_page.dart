@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:vitae_fitness/models/models.dart';
+import 'package:vitae_fitness/themes.dart';
 import 'video_player_page.dart';
 
 class VideoListPage extends StatelessWidget {
@@ -12,6 +13,8 @@ class VideoListPage extends StatelessWidget {
     VideoItem(
       title: 'Cardio para Quemar Grasa Rápidamente',
       url: 'https://www.youtube.com/watch?v=erpAjBqBBnU',
+      urlImage:
+          'https://cdn.businessinsider.es/sites/navi.axelspringer.es/public/media/image/2022/06/como-perder-grasa-abdominal-2727479.jpg?tf=1200x',
     ),
   ];
 
@@ -20,6 +23,8 @@ class VideoListPage extends StatelessWidget {
     VideoItem(
       title: 'Cómo GANAR MÚSCULO SIN PESAS',
       url: 'https://www.youtube.com/watch?v=3S3jw1tdNII',
+      urlImage:
+          'https://cdn0.uncomo.com/es/posts/9/9/2/como_ganar_musculo_en_los_brazos_44299_600.webp',
     ),
   ];
 
@@ -27,8 +32,8 @@ class VideoListPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-          title: Text(title),
-          ),
+        title: Text(title),
+      ),
       body: ListView(
         children: _getVideoSections(context),
       ),
@@ -59,8 +64,7 @@ class VideoListPage extends StatelessWidget {
           itemCount: videos.length,
           itemBuilder: (context, index) {
             final video = videos[index];
-            return ListTile(
-              title: Text(video.title),
+            return GestureDetector(
               onTap: () {
                 Navigator.push(
                   context,
@@ -69,6 +73,54 @@ class VideoListPage extends StatelessWidget {
                   ),
                 );
               },
+              child: Card(
+                margin: const EdgeInsets.symmetric(vertical: 8, horizontal: 16),
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(12),
+                ),
+                elevation: 4,
+                child: Container(
+                  padding: const EdgeInsets.all(12),
+                  child: Row(
+                    children: [
+                      // Imagen del video
+                      ClipRRect(
+                        borderRadius: BorderRadius.circular(8),
+                        child: Image.network(
+                          video.urlImage,
+                          width: 100,
+                          height: 80,
+                          fit: BoxFit.cover,
+                        ),
+                      ),
+                      const SizedBox(width: 12),
+                      // Título del video
+                      Expanded(
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              video.title,
+                              style: const TextStyle(
+                                fontSize: 16,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                            const SizedBox(height: 4),
+                            const Text(
+                              'Ver video',
+                              style: TextStyle(
+                                fontSize: 14,
+                                color: AppTheme.inputFillColor,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
             );
           },
         ),

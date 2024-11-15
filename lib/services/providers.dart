@@ -45,12 +45,10 @@ class ProfileProvider extends ChangeNotifier {
     notifyListeners(); // Notifica a todos los listeners que hubo un cambio
   }
 
-  void updateProfile(String newName, String newLastname, String newEmail,
-      String newBirthDate, String newPhone) {
+  void updateProfile(String newName, String newLastname, String newEmail) {
     name = newName;
     lastname = newLastname;
     email = newEmail;
-    birthDate = DateTime.parse(newBirthDate);
     notifyListeners(); // Notificar a los widgets que estén escuchando cambios
   }
 }

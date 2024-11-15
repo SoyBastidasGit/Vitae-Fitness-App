@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:vitae_fitness/screens/home_page.dart';
 import 'package:vitae_fitness/screens/register_email_page.dart';
+import 'package:vitae_fitness/screens/reset_password_page.dart';
 import 'package:vitae_fitness/services/https.dart';
 import 'package:vitae_fitness/services/providers.dart';
 import 'package:vitae_fitness/themes.dart';
@@ -153,7 +154,12 @@ class LoginPageState extends State<LoginPage> {
                 alignment: Alignment.centerRight,
                 child: TextButton(
                   onPressed: () {
-                    // LOGICA PARA RECUPERAR CONTRASEÑA
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => const ResetPasswordPage(),
+                      ),
+                    );
                   },
                   child: const Text(
                     '¿Olvidaste tu contraseña?',
@@ -190,7 +196,7 @@ class LoginPageState extends State<LoginPage> {
                   // Botón de iniciar sesión con Google
                   Expanded(
                     child: OutlinedButton.icon(
-                      onPressed: () {},
+                      onPressed: null,
                       icon: const FaIcon(
                         FontAwesomeIcons.google,
                         size: 16,

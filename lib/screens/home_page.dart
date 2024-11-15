@@ -6,9 +6,17 @@ import 'package:vitae_fitness/screens/profile_page.dart';
 import 'package:vitae_fitness/screens/video_list_page.dart';
 import 'package:vitae_fitness/services/providers.dart';
 import 'package:vitae_fitness/themes.dart';
+import 'package:vitae_fitness/widgets/table.dart';
 
-class HomePage extends StatelessWidget {
+class HomePage extends StatefulWidget {
   const HomePage({super.key});
+
+  @override
+  HomePageState createState() => HomePageState();
+}
+
+class HomePageState extends State<HomePage> {
+  bool isExerciseSelected = true; // Controla cuál de las tablas mostrar
 
   @override
   Widget build(BuildContext context) {
@@ -45,6 +53,7 @@ class HomePage extends StatelessWidget {
         padding: const EdgeInsets.all(8.0),
         child: Center(
           child: Column(
+            crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               Image.asset(
                 'assets/images/logo.png',
@@ -53,7 +62,7 @@ class HomePage extends StatelessWidget {
               ),
               const SizedBox(height: 30),
               Text(
-                '¡Buen dia, ${profileProvider.name}!',
+                '¡Buen día, ${profileProvider.name}!',
                 style: const TextStyle(
                   fontSize: 18,
                   fontWeight: FontWeight.bold,
@@ -63,48 +72,49 @@ class HomePage extends StatelessWidget {
               const SizedBox(height: 30),
               const Divider(),
               const SizedBox(height: 30),
-              const Row(
-                mainAxisAlignment: MainAxisAlignment.start,
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
-                  Text(
-                    'Ejercicios semanales',
-                    style: TextStyle(
-                      fontSize: 18,
-                      fontWeight: FontWeight.bold,
-                      color: Colors.white,
-                    ),
+                  // Columna para el Plan Nutricional
+                  Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Image.asset(
+                        'assets/images/plan_nutricional.png',
+                        scale: 3,
+                        color: AppTheme.textColor,
+                      ),
+                      const SizedBox(height: 8),
+                      ElevatedButton(
+                        onPressed: () {
+                          showPlanModal(context, false);
+                        },
+                        child: const Text('Plan nutricional'),
+                      ),
+                    ],
+                  ),
+
+                  // Columna para el Plan Ejercicio
+                  Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Image.asset(
+                        'assets/images/plan_ejercicio.png',
+                        scale: 3,
+                        color: AppTheme.textColor,
+                      ),
+                      const SizedBox(height: 8),
+                      ElevatedButton(
+                        onPressed: () {
+                          showPlanModal(context, true);
+                        },
+                        child: const Text('Plan ejercicio'),
+                      ),
+                    ],
                   ),
                 ],
               ),
-              const SizedBox(height: 10),
-              // Tabla de Planeación Semanal
-              Container(
-                decoration: BoxDecoration(
-                  color: Colors.grey[850],
-                  borderRadius: BorderRadius.circular(10),
-                ),
-                child: Table(
-                  border: TableBorder.all(
-                    color: Colors.grey[700]!,
-                    width: 1,
-                    borderRadius: BorderRadius.circular(10),
-                  ),
-                  columnWidths: const {
-                    0: FlexColumnWidth(1),
-                    1: FlexColumnWidth(2),
-                  },
-                  children: [
-                    buildHeaderRow(),
-                    buildStyledRow('Lunes', 'Cardio y Piernas'),
-                    buildStyledRow('Martes', 'Espalda y Bíceps'),
-                    buildStyledRow('Miércoles', 'Descanso'),
-                    buildStyledRow('Jueves', 'Pecho y Tríceps'),
-                    buildStyledRow('Viernes', 'Hombros y Core'),
-                    buildStyledRow('Sábado', 'Piernas y Glúteos'),
-                    buildStyledRow('Domingo', 'Descanso o Yoga'),
-                  ],
-                ),
-              ),
+              const SizedBox(height: 30),
               const Spacer(),
               IconButton(
                 icon: const FaIcon(
@@ -121,31 +131,42 @@ class HomePage extends StatelessWidget {
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.spaceAround,
                           children: [
-                            ElevatedButton(
-                              onPressed: () {
-                                Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                    builder: (context) => VideoListPage(
-                                      title: 'Quemar Grasa',
-                                    ),
-                                  ),
-                                );
-                              },
-                              child: const Text("Quemar Grasa"),
+                            Expanded(
+                              child: SizedBox(
+                                height: 50,
+                                child: ElevatedButton(
+                                  onPressed: () {
+                                    Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                        builder: (context) => VideoListPage(
+                                          title: 'Quemar Grasa',
+                                        ),
+                                      ),
+                                    );
+                                  },
+                                  child: const Text("Quemar Grasa"),
+                                ),
+                              ),
                             ),
-                            ElevatedButton(
-                              onPressed: () {
-                                Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                    builder: (context) => VideoListPage(
-                                      title: 'Aumento Muscular',
-                                    ),
-                                  ),
-                                );
-                              },
-                              child: const Text("Aumento Muscular"),
+                            const SizedBox(width: 16),
+                            Expanded(
+                              child: SizedBox(
+                                height: 50,
+                                child: ElevatedButton(
+                                  onPressed: () {
+                                    Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                        builder: (context) => VideoListPage(
+                                          title: 'Aumento Muscular',
+                                        ),
+                                      ),
+                                    );
+                                  },
+                                  child: const Text("Aumento Muscular"),
+                                ),
+                              ),
                             ),
                           ],
                         ),
@@ -161,68 +182,97 @@ class HomePage extends StatelessWidget {
     );
   }
 
-  TableRow buildHeaderRow() {
-    return const TableRow(
-      decoration: BoxDecoration(
-          color: AppTheme.primaryColor,
-          borderRadius:
-              BorderRadiusDirectional.vertical(top: Radius.circular(10))),
-      children: [
-        Padding(
-          padding: EdgeInsets.all(12.0),
-          child: Text(
-            'Día',
-            style: TextStyle(
-              color: AppTheme.textColorButtonPrimary,
-              fontWeight: FontWeight.bold,
-              fontSize: 16,
-            ),
-            textAlign: TextAlign.center,
-          ),
-        ),
-        Padding(
-          padding: EdgeInsets.all(12.0),
-          child: Text(
-            'Ejercicio',
-            style: TextStyle(
-              color: AppTheme.textColorButtonPrimary,
-              fontWeight: FontWeight.bold,
-              fontSize: 16,
-            ),
-            textAlign: TextAlign.center,
-          ),
-        ),
-      ],
-    );
-  }
+// Función que muestra el modal con la tabla de ejercicios o nutrición
+  void showPlanModal(BuildContext context, bool isExerciseSelected) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return SingleChildScrollView(
+          child: Dialog(
+            backgroundColor: Colors.black87,
+            child: Container(
+              width: double.infinity,
+              padding: const EdgeInsets.all(16.0),
+              decoration: BoxDecoration(
+                color: Colors.black87,
+                borderRadius: BorderRadius.circular(10),
+              ),
+              child: Column(
+                mainAxisSize: MainAxisSize
+                    .min, // Para que el modal ajuste su tamaño al contenido
+                children: [
+                  // Título
+                  Text(
+                    isExerciseSelected
+                        ? 'Ejercicios semanales'
+                        : 'Plan nutricional',
+                    style: const TextStyle(color: Colors.white, fontSize: 18),
+                  ),
+                  const SizedBox(
+                      height: 16), // Espacio entre el título y la tabla
 
-  TableRow buildStyledRow(String day, String workout) {
-    return TableRow(
-      decoration: BoxDecoration(
-          color: Colors.grey[800],
-          borderRadius:
-              const BorderRadius.vertical(bottom: Radius.circular(10))),
-      children: [
-        Padding(
-          padding: const EdgeInsets.all(12.0),
-          child: Text(
-            day,
-            style: const TextStyle(
-              color: Colors.white,
-              fontWeight: FontWeight.bold,
+                  // Contenido desplazable
+                  Container(
+                    decoration: BoxDecoration(
+                      color: Colors.grey[850],
+                      borderRadius: BorderRadius.circular(10),
+                    ),
+                    child: Table(
+                      border: TableBorder.all(
+                        color: Colors.grey[700]!,
+                        width: 1,
+                        borderRadius: BorderRadius.circular(10),
+                      ),
+                      columnWidths: const {
+                        0: FlexColumnWidth(1),
+                        1: FlexColumnWidth(2),
+                      },
+                      children: [
+                        buildHeaderRow(),
+                        if (isExerciseSelected) ...[
+                          buildStyledRow('Lunes', 'Cardio y Piernas'),
+                          buildStyledRow('Martes', 'Espalda y Bíceps'),
+                          buildStyledRow('Miércoles', 'Descanso'),
+                          buildStyledRow('Jueves', 'Pecho y Tríceps'),
+                          buildStyledRow('Viernes', 'Hombros y Core'),
+                          buildStyledRow('Sábado', 'Piernas y Glúteos'),
+                          buildStyledRow('Domingo', 'Descanso o Yoga'),
+                        ] else ...[
+                          buildStyledRow('Lunes',
+                              'Desayuno: Avena y fruta\nAlmuerzo: Pollo con arroz y ensalada'),
+                          buildStyledRow('Martes',
+                              'Desayuno: Yogur y granola\nAlmuerzo: Pescado con vegetales'),
+                          buildStyledRow('Miércoles',
+                              'Desayuno: Huevos revueltos con pan integral\nAlmuerzo: Tofu con quinoa'),
+                          buildStyledRow('Jueves',
+                              'Desayuno: Smoothie verde\nAlmuerzo: Carne magra con brócoli'),
+                          buildStyledRow('Viernes',
+                              'Desayuno: Tostadas con aguacate\nAlmuerzo: Pollo con pasta integral'),
+                          buildStyledRow('Sábado',
+                              'Desayuno: Panqueques de avena\nAlmuerzo: Ensalada de atún con espinacas'),
+                          buildStyledRow('Domingo',
+                              'Desayuno: Batido proteico\nAlmuerzo: Sopa de verduras'),
+                        ],
+                      ],
+                    ),
+                  ),
+                  const SizedBox(height: 16), // Espacio antes de los botones
+                  // Botón de cerrar
+                  TextButton(
+                    onPressed: () {
+                      Navigator.of(context).pop(); // Cierra el modal
+                    },
+                    child: const Text(
+                      'Cerrar',
+                      style: TextStyle(color: Colors.white),
+                    ),
+                  ),
+                ],
+              ),
             ),
-            textAlign: TextAlign.center,
           ),
-        ),
-        Padding(
-          padding: const EdgeInsets.all(12.0),
-          child: Text(
-            workout,
-            style: const TextStyle(color: Colors.white),
-            textAlign: TextAlign.center,
-          ),
-        ),
-      ],
+        );
+      },
     );
   }
 }
