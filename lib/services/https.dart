@@ -2,7 +2,7 @@ import 'dart:convert';
 import 'package:http/http.dart' as http;
 
 class ApiService {
-  static const String apiUrl = 'http://10.10.10.24:4000/'; //Daniel
+  static const String apiUrl = 'http://172.16.73.108:4000/'; //Evento
   // static const String apiUrl = 'http://192.168.1.118:4000/';
 
   // Función para registrar un usuario
