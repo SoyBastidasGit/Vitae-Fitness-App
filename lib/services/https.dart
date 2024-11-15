@@ -71,6 +71,37 @@ class ApiService {
     }
   }
 
+// Función para restablecer la contraseña
+  static Future<Map<String, dynamic>> resetPassword(
+      String email, String password) async {
+    final url = Uri.parse("${apiUrl}resetPassword");
+
+    // Cuerpo de la petición
+    Map<String, String> body = {
+      'email': email,
+      'password': password,
+    };
+
+    try {
+      // Realizamos la petición PUT
+      final response = await http.put(
+        url,
+        headers: {'Content-Type': 'application/json'},
+        body: json.encode(body), // Convertimos el body a JSON
+      );
+
+      // Verificamos si la respuesta fue exitosa
+      if (response.statusCode == 201) {
+        return json.decode(
+            response.body); // Decodificamos el cuerpo de la respuesta JSON
+      } else {
+        return {'error': 'Error al registrar usuario: ${response.statusCode}'};
+      }
+    } catch (e) {
+      return {'error': 'Error: $e'};
+    }
+  }
+
   // Función para obtener info del perfil de usuario
   static Future<Map<String, dynamic>> profileUser(String email) async {
     final url = Uri.parse("${apiUrl}profileUser");
