@@ -182,76 +182,95 @@ class HomePageState extends State<HomePage> {
     );
   }
 
-  // Función que muestra el modal con la tabla de ejercicios o nutrición
+// Función que muestra el modal con la tabla de ejercicios o nutrición
   void showPlanModal(BuildContext context, bool isExerciseSelected) {
     showDialog(
       context: context,
       builder: (BuildContext context) {
-        return AlertDialog(
-          backgroundColor: Colors.black87,
-          contentPadding: const EdgeInsets.all(16.0),
-          title: Text(
-            isExerciseSelected ? 'Ejercicios semanales' : 'Plan nutricional',
-            style: const TextStyle(color: Colors.white),
-          ),
-          content: SingleChildScrollView(
-            // Hace que el contenido sea desplazable si es necesario
+        return SingleChildScrollView(
+          child: Dialog(
+            backgroundColor: Colors.black87,
             child: Container(
+              width: double.infinity,
+              padding: const EdgeInsets.all(16.0),
               decoration: BoxDecoration(
-                color: Colors.grey[850],
+                color: Colors.black87,
                 borderRadius: BorderRadius.circular(10),
               ),
-              child: Table(
-                border: TableBorder.all(
-                  color: Colors.grey[700]!,
-                  width: 1,
-                  borderRadius: BorderRadius.circular(10),
-                ),
-                columnWidths: const {
-                  0: FlexColumnWidth(1),
-                  1: FlexColumnWidth(2),
-                },
+              child: Column(
+                mainAxisSize: MainAxisSize
+                    .min, // Para que el modal ajuste su tamaño al contenido
                 children: [
-                  buildHeaderRow(),
-                  if (isExerciseSelected) ...[
-                    buildStyledRow('Lunes', 'Cardio y Piernas'),
-                    buildStyledRow('Martes', 'Espalda y Bíceps'),
-                    buildStyledRow('Miércoles', 'Descanso'),
-                    buildStyledRow('Jueves', 'Pecho y Tríceps'),
-                    buildStyledRow('Viernes', 'Hombros y Core'),
-                    buildStyledRow('Sábado', 'Piernas y Glúteos'),
-                    buildStyledRow('Domingo', 'Descanso o Yoga'),
-                  ] else ...[
-                    buildStyledRow('Lunes',
-                        'Desayuno: Avena y fruta\nAlmuerzo: Pollo con arroz y ensalada'),
-                    buildStyledRow('Martes',
-                        'Desayuno: Yogur y granola\nAlmuerzo: Pescado con vegetales'),
-                    buildStyledRow('Miércoles',
-                        'Desayuno: Huevos revueltos con pan integral\nAlmuerzo: Tofu con quinoa'),
-                    buildStyledRow('Jueves',
-                        'Desayuno: Smoothie verde\nAlmuerzo: Carne magra con brócoli'),
-                    buildStyledRow('Viernes',
-                        'Desayuno: Tostadas con aguacate\nAlmuerzo: Pollo con pasta integral'),
-                    buildStyledRow('Sábado',
-                        'Desayuno: Panqueques de avena\nAlmuerzo: Ensalada de atún con espinacas'),
-                    buildStyledRow('Domingo',
-                        'Desayuno: Batido proteico\nAlmuerzo: Sopa de verduras'),
-                  ],
+                  // Título
+                  Text(
+                    isExerciseSelected
+                        ? 'Ejercicios semanales'
+                        : 'Plan nutricional',
+                    style: const TextStyle(color: Colors.white, fontSize: 18),
+                  ),
+                  const SizedBox(
+                      height: 16), // Espacio entre el título y la tabla
+
+                  // Contenido desplazable
+                  Container(
+                    decoration: BoxDecoration(
+                      color: Colors.grey[850],
+                      borderRadius: BorderRadius.circular(10),
+                    ),
+                    child: Table(
+                      border: TableBorder.all(
+                        color: Colors.grey[700]!,
+                        width: 1,
+                        borderRadius: BorderRadius.circular(10),
+                      ),
+                      columnWidths: const {
+                        0: FlexColumnWidth(1),
+                        1: FlexColumnWidth(2),
+                      },
+                      children: [
+                        buildHeaderRow(),
+                        if (isExerciseSelected) ...[
+                          buildStyledRow('Lunes', 'Cardio y Piernas'),
+                          buildStyledRow('Martes', 'Espalda y Bíceps'),
+                          buildStyledRow('Miércoles', 'Descanso'),
+                          buildStyledRow('Jueves', 'Pecho y Tríceps'),
+                          buildStyledRow('Viernes', 'Hombros y Core'),
+                          buildStyledRow('Sábado', 'Piernas y Glúteos'),
+                          buildStyledRow('Domingo', 'Descanso o Yoga'),
+                        ] else ...[
+                          buildStyledRow('Lunes',
+                              'Desayuno: Avena y fruta\nAlmuerzo: Pollo con arroz y ensalada'),
+                          buildStyledRow('Martes',
+                              'Desayuno: Yogur y granola\nAlmuerzo: Pescado con vegetales'),
+                          buildStyledRow('Miércoles',
+                              'Desayuno: Huevos revueltos con pan integral\nAlmuerzo: Tofu con quinoa'),
+                          buildStyledRow('Jueves',
+                              'Desayuno: Smoothie verde\nAlmuerzo: Carne magra con brócoli'),
+                          buildStyledRow('Viernes',
+                              'Desayuno: Tostadas con aguacate\nAlmuerzo: Pollo con pasta integral'),
+                          buildStyledRow('Sábado',
+                              'Desayuno: Panqueques de avena\nAlmuerzo: Ensalada de atún con espinacas'),
+                          buildStyledRow('Domingo',
+                              'Desayuno: Batido proteico\nAlmuerzo: Sopa de verduras'),
+                        ],
+                      ],
+                    ),
+                  ),
+                  const SizedBox(height: 16), // Espacio antes de los botones
+                  // Botón de cerrar
+                  TextButton(
+                    onPressed: () {
+                      Navigator.of(context).pop(); // Cierra el modal
+                    },
+                    child: const Text(
+                      'Cerrar',
+                      style: TextStyle(color: Colors.white),
+                    ),
+                  ),
                 ],
               ),
             ),
           ),
-          actions: <Widget>[
-            TextButton(
-              onPressed: () {
-                Navigator.of(context).pop(); // Cierra el modal
-              },
-              child: const Text(
-                'Cerrar',
-                style: TextStyle(color: Colors.white),
-              ),
-            ),
-          ],
         );
       },
     );
