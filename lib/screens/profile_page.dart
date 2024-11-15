@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:vitae_fitness/screens/login_page.dart';
+import 'package:vitae_fitness/services/https.dart';
 import 'package:vitae_fitness/services/providers.dart';
 import 'package:vitae_fitness/themes.dart';
+import 'package:vitae_fitness/widgets/loading_page.dart';
 
 class UserProfilePage extends StatefulWidget {
   const UserProfilePage({super.key});
@@ -15,6 +17,56 @@ class UserProfilePageState extends State<UserProfilePage> {
   final _nameController = TextEditingController();
   final _lastnameController = TextEditingController();
   final _emailController = TextEditingController();
+
+  Future<void> _updateProfile(context, profileProvider) async {
+    final name = _nameController.text;
+    final lastName = _lastnameController.text;
+    final email = _emailController.text;
+    final oldEmail = profileProvider.email;
+
+    // Mostrar la pantalla de carga
+    showDialog(
+      context: context,
+      barrierDismissible: false, // Impide que el usuario cierre el diálogo
+      builder: (BuildContext context) {
+        return const LoadingPage();
+      },
+    );
+
+    // Llama a la función de login desde el servicio HTTP
+    var response =
+        await ApiService.updateProfileInfo(name, lastName, email, oldEmail);
+
+    // Cierra la pantalla de carga
+    Navigator.pop(context);
+
+    if (response.containsKey('message') &&
+        response['message'] == 'Autorizado') {
+      profileProvider.name = response['result'][0]['nombre'];
+      profileProvider.lastname = response['result'][0]['apellido'];
+      profileProvider.email = response['result'][0]['correo'];
+
+      Navigator.pushReplacement(
+        context,
+        PageRouteBuilder(
+          pageBuilder: (context, animation, secondaryAnimation) =>
+              const UserProfilePage(),
+          transitionsBuilder: (context, animation, secondaryAnimation, child) {
+            return FadeTransition(opacity: animation, child: child);
+          },
+          transitionDuration: const Duration(milliseconds: 500),
+        ),
+      );
+    } else if (response.containsKey('error')) {
+      _showMessage(response['error']);
+    }
+  }
+
+  void _showMessage(String message) {
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(content: Text(message)),
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -98,11 +150,7 @@ class UserProfilePageState extends State<UserProfilePage> {
                 ),
                 ElevatedButton(
                   onPressed: () {
-                    profileProvider.updateProfile(
-                      _nameController.text,
-                      _lastnameController.text,
-                      _emailController.text,
-                    );
+                    _updateProfile(context, profileProvider);
                     // Mostrar un mensaje de éxito o hacer algo al guardar
                     ScaffoldMessenger.of(context).showSnackBar(
                       const SnackBar(content: Text('Perfil actualizado')),

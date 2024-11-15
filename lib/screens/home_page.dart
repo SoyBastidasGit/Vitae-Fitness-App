@@ -121,31 +121,45 @@ class HomePage extends StatelessWidget {
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.spaceAround,
                           children: [
-                            ElevatedButton(
-                              onPressed: () {
-                                Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                    builder: (context) => VideoListPage(
-                                      title: 'Quemar Grasa',
-                                    ),
-                                  ),
-                                );
-                              },
-                              child: const Text("Quemar Grasa"),
+                            Expanded(
+                              child: SizedBox(
+                                height:
+                                    50, // Altura consistente para ambos botones
+                                child: ElevatedButton(
+                                  onPressed: () {
+                                    Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                        builder: (context) => VideoListPage(
+                                          title: 'Quemar Grasa',
+                                        ),
+                                      ),
+                                    );
+                                  },
+                                  child: const Text("Quemar Grasa"),
+                                ),
+                              ),
                             ),
-                            ElevatedButton(
-                              onPressed: () {
-                                Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                    builder: (context) => VideoListPage(
-                                      title: 'Aumento Muscular',
-                                    ),
-                                  ),
-                                );
-                              },
-                              child: const Text("Aumento Muscular"),
+                            const SizedBox(
+                                width: 16), // Espaciado entre los botones
+                            Expanded(
+                              child: SizedBox(
+                                height:
+                                    50, // Altura consistente para ambos botones
+                                child: ElevatedButton(
+                                  onPressed: () {
+                                    Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                        builder: (context) => VideoListPage(
+                                          title: 'Aumento Muscular',
+                                        ),
+                                      ),
+                                    );
+                                  },
+                                  child: const Text("Aumento Muscular"),
+                                ),
+                              ),
                             ),
                           ],
                         ),

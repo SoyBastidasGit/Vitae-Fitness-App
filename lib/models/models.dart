@@ -17,6 +17,7 @@ class ProfileModel {
 class VideoItem {
   final String title;
   final String url;
+  final String urlImage;
 
-  VideoItem({required this.title, required this.url});
+  VideoItem({required this.title, required this.url, required this.urlImage});
 }
