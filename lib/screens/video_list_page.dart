@@ -11,7 +11,19 @@ class VideoListPage extends StatelessWidget {
   // Lista de videos para Quemar Grasa
   final List<VideoItem> burnFatVideos = [
     VideoItem(
-      title: 'Cardio para Quemar Grasa Rápidamente',
+      title: 'Cardio para quemar grasa',
+      url: 'https://www.youtube.com/watch?v=erpAjBqBBnU',
+      urlImage:
+          'https://cdn.businessinsider.es/sites/navi.axelspringer.es/public/media/image/2022/06/como-perder-grasa-abdominal-2727479.jpg?tf=1200x',
+    ),
+    VideoItem(
+      title: 'Cardio para quemar grasa',
+      url: 'https://www.youtube.com/watch?v=erpAjBqBBnU',
+      urlImage:
+          'https://cdn.businessinsider.es/sites/navi.axelspringer.es/public/media/image/2022/06/como-perder-grasa-abdominal-2727479.jpg?tf=1200x',
+    ),
+    VideoItem(
+      title: 'Cardio para quemar grasa',
       url: 'https://www.youtube.com/watch?v=erpAjBqBBnU',
       urlImage:
           'https://cdn.businessinsider.es/sites/navi.axelspringer.es/public/media/image/2022/06/como-perder-grasa-abdominal-2727479.jpg?tf=1200x',
@@ -21,7 +33,19 @@ class VideoListPage extends StatelessWidget {
   // Lista de videos para Aumento Muscular
   final List<VideoItem> muscleGainVideos = [
     VideoItem(
-      title: 'Cómo GANAR MÚSCULO SIN PESAS',
+      title: 'Como ganar musculo',
+      url: 'https://www.youtube.com/watch?v=3S3jw1tdNII',
+      urlImage:
+          'https://cdn0.uncomo.com/es/posts/9/9/2/como_ganar_musculo_en_los_brazos_44299_600.webp',
+    ),
+    VideoItem(
+      title: 'Como ganar musculo',
+      url: 'https://www.youtube.com/watch?v=3S3jw1tdNII',
+      urlImage:
+          'https://cdn0.uncomo.com/es/posts/9/9/2/como_ganar_musculo_en_los_brazos_44299_600.webp',
+    ),
+    VideoItem(
+      title: 'Como ganar musculo',
       url: 'https://www.youtube.com/watch?v=3S3jw1tdNII',
       urlImage:
           'https://cdn0.uncomo.com/es/posts/9/9/2/como_ganar_musculo_en_los_brazos_44299_600.webp',
