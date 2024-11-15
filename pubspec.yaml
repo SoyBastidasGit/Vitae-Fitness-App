@@ -26,3 +26,5 @@ flutter:
     - assets/images/logo.png
     - assets/images/dieta.jpg
     - assets/images/profile.png
+    - assets/images/plan_nutricional.png
+    - assets/images/plan_ejercicio.png
